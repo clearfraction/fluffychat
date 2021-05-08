@@ -9,7 +9,7 @@ Release:    1
 Summary:    Matrix client
 Group:      Applications/Internet
 License:    GPLv3
-URL:           https://gitlab.gnome.org/GNOME/fractal
+URL:        https://gitlab.gnome.org/GNOME/fractal
 Source0:    https://gitlab.gnome.org/GNOME/fractal/-/archive/%{commit0}/fractal-%{commit0}.tar.gz#/%{name}-%{shortcommit0}.tar.gz
 BuildRequires:  rustc 
 BuildRequires:  meson
@@ -52,7 +52,8 @@ A GTK3 app for finding and listening to internet radio stations.
 %setup -n fractal-%{commit0}
 
 # fix pkgdatadir
- sed -i  "s|join_paths(fractal_prefix, datadir, meson.project_name())|'/opt/3rd-party/bundles/clearfraction/usr/share/fractal'|" meson.build
+sed -i "s|@PKGDATADIR@|\"/opt/3rd-party/bundles/clearfraction/usr/share/fractal\"|" fractal-gtk/src/config.rs.in
+
 
 %build
 unset http_proxy
