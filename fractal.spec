@@ -1,5 +1,5 @@
 %global debug_package %{nil}
-%global commit0 7a97d2a880dc574457e1db0be5c3c7d4b2225b2c
+%global commit0 dbd6e95551cbfe4db93748a699a5857dd6863b71
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 %global gver .git%{shortcommit0}
 
@@ -10,11 +10,12 @@ Summary:    Matrix client
 Group:      Applications/Internet
 License:    GPLv3
 URL:        https://gitlab.gnome.org/GNOME/fractal
-Source0:    https://gitlab.gnome.org/GNOME/fractal/-/archive/%{commit0}/fractal-%{commit0}.tar.gz#/%{name}-%{shortcommit0}.tar.gz
+#Source0:    https://gitlab.gnome.org/GNOME/fractal/-/archive/%{commit0}/fractal-%{commit0}.tar.gz#/%{name}-%{shortcommit0}.tar.gz
+Source0:    https://gitlab.gnome.org/GNOME/fractal/-/archive/4.4.0/fractal-4.4.0.tar.gz
 BuildRequires:  rustc 
 BuildRequires:  meson
 BuildRequires:  ninja
-BuildRequires:  libhandy-dev
+BuildRequires:  compat-libhandy-0.0-dev
 BuildRequires:  gtk3-dev
 BuildRequires:  pkgconfig(glib-2.0)
 BuildRequires:  pkgconfig(gstreamer-1.0)
@@ -39,6 +40,8 @@ BuildRequires:  cmake
 BuildRequires:  gtksourceview-dev
 BuildRequires:  gspell-dev
 BuildRequires:  gst-editing-services-dev
+BuildRequires:  gmp-dev at-spi2-atk-dev
+BuildRequires:  libsecret-dev pango-dev cairo-dev
 Requires:       gstreamer1-plugins-base-tools
 Requires:       gstreamer1-plugins-base
 Requires:       libappstream-glib
@@ -50,17 +53,18 @@ Requires:       gstreamer1-libav
 Matrix client
 
 %prep 
-%setup -n fractal-%{commit0}
+%setup -n fractal-4.4.0
+#fractal-%%{commit0}
 
 # fix pkgdatadir
 sed -i "s|@PKGDATADIR@|\"/opt/3rd-party/bundles/clearfraction/usr/share/fractal\"|" fractal-gtk/src/config.rs.in
-
+sed -i "s|Cargo.toml -p|Cargo.toml --release -p|" scripts/cargo.sh
 
 %build
 unset http_proxy
 unset no_proxy 
 unset https_proxy
-meson --libdir=lib64 --prefix=/usr --buildtype=plain  builddir
+meson --libdir=lib64 --prefix=/usr --buildtype=plain -Dprofile=default  builddir
 ninja -v -C builddir
 
 %install
@@ -76,7 +80,7 @@ DESTDIR=%{buildroot} ninja -C builddir install
 %{_datadir}/glib-2.0/schemas/*.gschema.xml
 %{_datadir}/icons/hicolor/*/*/*
 %{_datadir}/metainfo/*.xml
-/usr/share/fractal/resources.gresource
+#/usr/share/fractal/resources.gresource
 
 
 
