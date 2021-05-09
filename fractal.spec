@@ -76,6 +76,8 @@ DESTDIR=%{buildroot} ninja -C builddir install
 %{_datadir}/glib-2.0/schemas/*.gschema.xml
 %{_datadir}/icons/hicolor/*/*/*
 %{_datadir}/metainfo/*.xml
+/usr/share/fractal/resources.gresource
+
 
 
 %changelog
