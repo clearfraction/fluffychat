@@ -1,4 +1,3 @@
-%global debug_package %{nil}
 %global commit0 dbd6e95551cbfe4db93748a699a5857dd6863b71
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 %global gver .git%{shortcommit0}
@@ -10,7 +9,7 @@ Summary:    Matrix client
 Group:      Applications/Internet
 License:    GPLv3
 URL:        https://gitlab.gnome.org/GNOME/fractal
-#Source0:    https://gitlab.gnome.org/GNOME/fractal/-/archive/%{commit0}/fractal-%{commit0}.tar.gz#/%{name}-%{shortcommit0}.tar.gz
+#Source0:    https://gitlab.gnome.org/GNOME/fractal/-/archive/%%{commit0}/fractal-%%{commit0}.tar.gz#/%%{name}-%%{shortcommit0}.tar.gz
 Source0:    https://gitlab.gnome.org/GNOME/fractal/-/archive/4.4.0/fractal-4.4.0.tar.gz
 BuildRequires:  rustc 
 BuildRequires:  meson
