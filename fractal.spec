@@ -84,4 +84,3 @@ DESTDIR=%{buildroot} ninja -C builddir install
 
 
 %changelog
-# based on https://github.com/UnitedRPMs/shortwave
