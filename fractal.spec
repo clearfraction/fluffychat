@@ -38,7 +38,7 @@ BuildRequires:  gst-editing-services-dev
 BuildRequires:  gmp-dev at-spi2-atk-dev
 BuildRequires:  libsecret-dev pango-dev cairo-dev
 BuildRequires:  Vulkan-Loader-dev Vulkan-Headers-dev Vulkan-ValidationLayers-dev
-BuildRequires:  pcre2-dev
+BuildRequires:  pcre2-dev gtksourceview5-dev
 Requires:       gstreamer1-plugins-base-tools
 Requires:       gstreamer1-plugins-base
 Requires:       libappstream-glib
