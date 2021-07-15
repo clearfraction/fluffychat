@@ -1,20 +1,19 @@
-%global commit0 dbd6e95551cbfe4db93748a699a5857dd6863b71
-%global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
-%global gver .git%{shortcommit0}
+%global commit ffa8b03ee5f576037d1468d0bb27ab8e63c31ba4
+%global shortcommit %(c=%{commit}; echo ${c:0:7})
+%global gver .git%{shortcommit}
 
 Name:       fractal
 Version:    4.4.0
-Release:    1
+Release:    2
 Summary:    Matrix client
 Group:      Applications/Internet
 License:    GPLv3
 URL:        https://gitlab.gnome.org/GNOME/fractal
-#Source0:    https://gitlab.gnome.org/GNOME/fractal/-/archive/%%{commit0}/fractal-%%{commit0}.tar.gz#/%%{name}-%%{shortcommit0}.tar.gz
-Source0:    https://gitlab.gnome.org/GNOME/fractal/-/archive/4.4.0/fractal-4.4.0.tar.gz
+Source:    https://gitlab.gnome.org/GNOME/fractal/-/archive/%{commit}/fractal-%{commit}.tar.gz#/%{name}-%{shortcommit}.tar.gz
 BuildRequires:  rustc 
 BuildRequires:  meson
 BuildRequires:  ninja
-BuildRequires:  compat-libhandy-0.0-dev
+BuildRequires:  libhandy-dev
 BuildRequires:  gtk3-dev
 BuildRequires:  pkgconfig(glib-2.0)
 BuildRequires:  pkgconfig(gstreamer-1.0)
@@ -52,8 +51,7 @@ Requires:       gstreamer1-libav
 Matrix client
 
 %prep 
-%setup -n fractal-4.4.0
-#fractal-%%{commit0}
+%setup -n fractal-%{commit}
 
 # fix pkgdatadir
 sed -i "s|@PKGDATADIR@|\"/opt/3rd-party/bundles/clearfraction/usr/share/fractal\"|" fractal-gtk/src/config.rs.in
@@ -68,19 +66,16 @@ ninja -v -C builddir
 
 %install
 DESTDIR=%{buildroot} ninja -C builddir install
-%find_lang %{name}
+%find_lang fractal
 
 
 %files -f %{name}.lang
 %license LICENSE.txt
-%doc README.md
-%{_bindir}/%{name}
-%{_datadir}/applications/*.desktop
-%{_datadir}/glib-2.0/schemas/*.gschema.xml
-%{_datadir}/icons/hicolor/*/*/*
-%{_datadir}/metainfo/*.xml
-#/usr/share/fractal/resources.gresource
-
-
+/usr/bin/fractal
+/usr/share/applications/*.desktop
+/usr/share/glib-2.0/schemas/*.gschema.xml
+/usr/share/icons/hicolor/*/*/*
+/usr/share/metainfo/*.xml
+/usr/share/fractal/resources.gresource
 
 %changelog
