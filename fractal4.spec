@@ -1,4 +1,4 @@
-%global commit ffa8b03ee5f576037d1468d0bb27ab8e63c31ba4
+%global commit a1bc2168bcd301596b9aafae10f102f0d681d997
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 %global gver .git%{shortcommit}
 
