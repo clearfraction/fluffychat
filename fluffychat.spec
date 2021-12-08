@@ -21,6 +21,7 @@ BuildRequires : ldc-dev
 BuildRequires : which
 BuildRequires : cmake
 BuildRequires : ninja
+BuildRequires : llvm
 
 %description
 Matrix. Chat with your friends.
@@ -30,7 +31,7 @@ curl -LO https://storage.googleapis.com/flutter_infra_release/releases/stable/li
 tar xf flutter_linux_%{flutter_version}.tar.xz -C /
 export PATH=/flutter/bin:"$PATH"
 
-%setup -q -n fluffychat-v%{version} -a 0 -a 1
+%setup -q -n fluffychat-v%{version} -a 1
 dart --disable-analytics
 flutter config --no-analytics
 flutter config --enable-linux-desktop
@@ -53,6 +54,10 @@ export FCFLAGS="$FFLAGS -fno-lto "
 export FFLAGS="$FFLAGS -fno-lto "
 export CXXFLAGS="$CXXFLAGS -fno-lto "
 
+export CXXFLAGS=`echo $CXXFLAGS| sed 's|-Wl,--enable-new-dtags||g'`
+export CXXFLAGS=`echo $CXXFLAGS| sed 's|-Wl,--build-id=sha1||g'`
+export CXXFLAGS=`echo $CXXFLAGS| sed 's|-Wl,-z,now,-z,relro,-z,max-page-size=0x1000,-z,separate-code||g'`
+
 pushd olm-%{olm_version}
 cmake . -Bbuilddir -DCMAKE_BUILD_TYPE=Release
 cmake --build builddir && cmake --install ./builddir --prefix /usr
@@ -61,10 +66,6 @@ cmake --build builddir && cmake --install ./builddir --prefix /usr
   popd
 popd
 
-dnf install -q -y llvm
-export CXXFLAGS=`echo $CXXFLAGS| sed 's|-Wl,--enable-new-dtags||g'`
-export CXXFLAGS=`echo $CXXFLAGS| sed 's|-Wl,--build-id=sha1||g'`
-export CXXFLAGS=`echo $CXXFLAGS| sed 's|-Wl,-z,now,-z,relro,-z,max-page-size=0x1000,-z,separate-code||g'`
 flutter clean
 flutter build linux --release
 
