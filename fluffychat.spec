@@ -57,6 +57,9 @@ export CXXFLAGS="$CXXFLAGS -fno-lto "
 export CXXFLAGS=`echo $CXXFLAGS| sed 's|-Wl,--enable-new-dtags||g'`
 export CXXFLAGS=`echo $CXXFLAGS| sed 's|-Wl,--build-id=sha1||g'`
 export CXXFLAGS=`echo $CXXFLAGS| sed 's|-Wl,-z,now,-z,relro,-z,max-page-size=0x1000,-z,separate-code||g'`
+export CFLAGS=`echo $CFLAGS| sed 's|-Wl,--enable-new-dtags||g'`
+export CFLAGS=`echo $CFLAGS| sed 's|-Wl,--build-id=sha1||g'`
+export CFLAGS=`echo $CFLAGS| sed 's|-Wl,-z,now,-z,relro,-z,max-page-size=0x1000,-z,separate-code||g'`
 
 pushd olm-%{olm_version}
 cmake . -Bbuilddir -DCMAKE_BUILD_TYPE=Release
