@@ -1,5 +1,5 @@
 %global flutter_version 2.5.3-stable
-%global olm_version 3.2.6
+%global olm_version 3.2.7
 
 Name     : fluffychat
 Version  : 1.0.1
@@ -18,7 +18,6 @@ BuildRequires : jsoncpp-dev
 BuildRequires : libxdg-basedir-dev
 BuildRequires : ldc
 BuildRequires : ldc-dev
-BuildRequires : llvm
 BuildRequires : which
 BuildRequires : cmake
 BuildRequires : ninja
@@ -62,6 +61,7 @@ cmake --build builddir && cmake --install ./builddir --prefix /usr
   popd
 popd
 
+dnf install -q -y llvm
 export CXXFLAGS=`echo $CXXFLAGS| sed 's|-Wl,--enable-new-dtags||g'`
 export CXXFLAGS=`echo $CXXFLAGS| sed 's|-Wl,--build-id=sha1||g'`
 export CXXFLAGS=`echo $CXXFLAGS| sed 's|-Wl,-z,now,-z,relro,-z,max-page-size=0x1000,-z,separate-code||g'`
