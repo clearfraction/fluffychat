@@ -2,7 +2,7 @@
 %global olm_version 3.2.7
 
 Name     : fluffychat
-Version  : 1.0.1
+Version  : 1.1.0
 Release  : 1
 URL      : https://fluffychat.im
 Source0  : https://gitlab.com/famedly/fluffychat/-/archive/v%{version}/fluffychat-v%{version}.tar.gz
