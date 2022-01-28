@@ -1,4 +1,4 @@
-%global flutter_version 2.5.3-stable
+%global flutter_version 2.8.1-stable
 %global olm_version 3.2.10
 
 Name     : fluffychat
