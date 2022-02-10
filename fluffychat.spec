@@ -16,8 +16,6 @@ BuildRequires : libsecret-dev
 BuildRequires : openssl-dev
 BuildRequires : jsoncpp-dev
 BuildRequires : libxdg-basedir-dev
-BuildRequires : ldc
-BuildRequires : ldc-dev
 BuildRequires : which
 BuildRequires : cmake
 BuildRequires : ninja
