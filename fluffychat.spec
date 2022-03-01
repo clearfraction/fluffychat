@@ -1,8 +1,8 @@
-%global flutter_version 2.8.1-stable
+%global flutter_version 2.10.1-stable
 %global olm_version 3.2.10
 
 Name     : fluffychat
-Version  : 1.2.0
+Version  : 1.3.0
 Release  : 1
 URL      : https://fluffychat.im
 Source0  : https://gitlab.com/famedly/fluffychat/-/archive/v%{version}/fluffychat-v%{version}.tar.gz
@@ -55,9 +55,12 @@ export CXXFLAGS="$CXXFLAGS -fno-lto "
 export CXXFLAGS=`echo $CXXFLAGS| sed 's|-Wl,--enable-new-dtags||g'`
 export CXXFLAGS=`echo $CXXFLAGS| sed 's|-Wl,--build-id=sha1||g'`
 export CXXFLAGS=`echo $CXXFLAGS| sed 's|-Wl,-z,now,-z,relro,-z,max-page-size=0x1000,-z,separate-code||g'`
+export CXXFLAGS=`echo $CXXFLAGS| sed 's|,--emit-relocs||g'`
+
 export CFLAGS=`echo $CFLAGS| sed 's|-Wl,--enable-new-dtags||g'`
 export CFLAGS=`echo $CFLAGS| sed 's|-Wl,--build-id=sha1||g'`
 export CFLAGS=`echo $CFLAGS| sed 's|-Wl,-z,now,-z,relro,-z,max-page-size=0x1000,-z,separate-code||g'`
+export CFLAGS=`echo $CFLAGS| sed 's|,--emit-relocs||g'`
 
 pushd olm-%{olm_version}
 cmake . -Bbuilddir -DCMAKE_BUILD_TYPE=Release
