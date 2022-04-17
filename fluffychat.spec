@@ -29,6 +29,8 @@ Matrix. Chat with your friends.
 curl -LO https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_%{flutter_version}.tar.xz
 tar xf flutter_linux_%{flutter_version}.tar.xz -C /
 export PATH=/flutter/bin:"$PATH"
+git config --global --add safe.directory /flutter
+
 
 %setup -q -n fluffychat-v%{version} -a 1
 dart --disable-analytics
@@ -42,28 +44,10 @@ unset https_proxy
 export LANG=C.UTF-8
 export GCC_IGNORE_WERROR=1
 export PATH=/flutter/bin:"$PATH"
-export CC=clang
-export CXX=clang++
-export LD=ld.gold
-CFLAGS=${CFLAGS/ -Wa,/ -fno-integrated-as -Wa,}
-CXXFLAGS=${CXXFLAGS/ -Wa,/ -fno-integrated-as -Wa,}
-unset LDFLAGS
-export CFLAGS="$CFLAGS -fno-lto "
-export FCFLAGS="$FFLAGS -fno-lto "
-export FFLAGS="$FFLAGS -fno-lto "
-export CXXFLAGS="$CXXFLAGS -fno-lto "
-
-export CXXFLAGS=`echo $CXXFLAGS| sed 's|-Wl,--enable-new-dtags||g'`
-export CXXFLAGS=`echo $CXXFLAGS| sed 's|-Wl,--build-id=sha1||g'`
-export CXXFLAGS=`echo $CXXFLAGS| sed 's|-Wl,-z,now,-z,relro,-z,max-page-size=0x1000,-z,separate-code||g'`
-export CXXFLAGS=`echo $CXXFLAGS| sed 's|,--emit-relocs||g'`
-export CXXFLAGS=`echo $CXXFLAGS| sed 's|,-mrelax-cmpxchg-loop||g'`
-
-export CFLAGS=`echo $CFLAGS| sed 's|-Wl,--enable-new-dtags||g'`
-export CFLAGS=`echo $CFLAGS| sed 's|-Wl,--build-id=sha1||g'`
-export CFLAGS=`echo $CFLAGS| sed 's|-Wl,-z,now,-z,relro,-z,max-page-size=0x1000,-z,separate-code||g'`
-export CFLAGS=`echo $CFLAGS| sed 's|,--emit-relocs||g'`
-export CFLAGS=`echo $CFLAGS| sed 's|,-mrelax-cmpxchg-loop||g'`
+export CFLAGS="$CFLAGS -O3 -flto=auto "
+export FCFLAGS="$FFLAGS -O3 -flto=auto "
+export FFLAGS="$FFLAGS -O3 -flto=auto "
+export CXXFLAGS="$CXXFLAGS -O3 -flto=auto "
 
 
 pushd olm-%{olm_version}
@@ -74,6 +58,22 @@ cmake --build builddir && cmake --install ./builddir --prefix /usr
   popd
 popd
 
+export CC=clang
+export CXX=clang++
+export LD=ld.gold
+CFLAGS=${CFLAGS/ -Wa,/ -fno-integrated-as -Wa,}
+CXXFLAGS=${CXXFLAGS/ -Wa,/ -fno-integrated-as -Wa,}
+unset LDFLAGS
+export CXXFLAGS=`echo $CXXFLAGS| sed 's|-Wl,--enable-new-dtags||g'`
+export CXXFLAGS=`echo $CXXFLAGS| sed 's|-Wl,--build-id=sha1||g'`
+export CXXFLAGS=`echo $CXXFLAGS| sed 's|-Wl,-z,now,-z,relro,-z,max-page-size=0x1000,-z,separate-code||g'`
+export CXXFLAGS=`echo $CXXFLAGS| sed 's|,--emit-relocs||g'`
+export CXXFLAGS=`echo $CXXFLAGS| sed 's|-mrelax-cmpxchg-loop|-enable-trivial-auto-var-init-zero-knowing-it-will-be-removed-from-clang|g'`
+export CFLAGS=`echo $CFLAGS| sed 's|-Wl,--enable-new-dtags||g'`
+export CFLAGS=`echo $CFLAGS| sed 's|-Wl,--build-id=sha1||g'`
+export CFLAGS=`echo $CFLAGS| sed 's|-Wl,-z,now,-z,relro,-z,max-page-size=0x1000,-z,separate-code||g'`
+export CFLAGS=`echo $CFLAGS| sed 's|,--emit-relocs||g'`
+export CFLAGS=`echo $CFLAGS| sed 's|-mrelax-cmpxchg-loop|-enable-trivial-auto-var-init-zero-knowing-it-will-be-removed-from-clang|g'`
 flutter clean
 flutter build linux --release
 
