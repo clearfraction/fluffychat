@@ -1,8 +1,8 @@
-%global flutter_version 2.10.1-stable
+%global flutter_version 3.0.0-stable
 %global olm_version 3.2.10
 
 Name     : fluffychat
-Version  : 1.3.1
+Version  : 1.4.0
 Release  : 1
 URL      : https://fluffychat.im
 Source0  : https://gitlab.com/famedly/fluffychat/-/archive/v%{version}/fluffychat-v%{version}.tar.gz
