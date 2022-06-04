@@ -1,11 +1,15 @@
-%global flutter_version 3.0.0-stable
+%global flutter_version 3.0.1-stable
 %global olm_version 3.2.10
+%global commit b2ba999c7288ffce7eab90c01e6fbe02f460f84e
+%global shortcommit %(c=%{commit}; echo ${c:0:7})
+
 
 Name     : fluffychat
-Version  : 1.4.0
+Version  : 1.5.0
 Release  : 1
 URL      : https://fluffychat.im
-Source0  : https://gitlab.com/famedly/fluffychat/-/archive/v%{version}/fluffychat-v%{version}.tar.gz
+Source0  : https://gitlab.com/famedly/fluffychat/-/archive/%{commit}/%{name}-%{shortcommit}.tar.gz
+#Source0 : https://gitlab.com/famedly/fluffychat/-/archive/v%%{version}/fluffychat-v%%{version}.tar.gz
 Source1  : https://gitlab.matrix.org/matrix-org/olm/-/archive/%{olm_version}/olm-%{olm_version}.tar.bz2
 Summary  : Matrix. Chat with your friends.
 Group    : Development/Tools
@@ -32,7 +36,8 @@ export PATH=/flutter/bin:"$PATH"
 git config --global --add safe.directory /flutter
 
 
-%setup -q -n fluffychat-v%{version} -a 1
+%setup -q -n fluffychat-%{commit} -a 1
+sed -i 's|2906e65ffaa96afbe6c72e8477d4dfcdfd06c2c3|a3d4020911860ff091d90638ab708604b71d2c5a|g' pubspec.lock
 dart --disable-analytics
 flutter config --no-analytics
 flutter config --enable-linux-desktop
@@ -80,7 +85,7 @@ flutter build linux --release
 
 %install
 mkdir -p %{buildroot}/usr/share/{pixmaps,applications,fluffychat} %{buildroot}/usr/lib64
-mv %{_builddir}/fluffychat-v%{version}/build/linux/x64/release/bundle/* %{buildroot}/usr/share/fluffychat
+mv %{_builddir}/fluffychat-*/build/linux/x64/release/bundle/* %{buildroot}/usr/share/fluffychat
 rm -rf %{buildroot}/usr/share/fluffychat/data/flutter_assets/fonts/{NotoEmoji,Roboto}
 cp -r /usr/lib64/libolm* %{buildroot}/usr/lib64
 mv %{buildroot}/usr/share/fluffychat/data/flutter_assets/assets/favicon.png %{buildroot}/usr/share/pixmaps/fluffychat.png
