@@ -71,14 +71,10 @@ CXXFLAGS=${CXXFLAGS/ -Wa,/ -fno-integrated-as -Wa,}
 unset LDFLAGS
 export CXXFLAGS=`echo $CXXFLAGS| sed 's|-Wl,--enable-new-dtags||g'`
 export CXXFLAGS=`echo $CXXFLAGS| sed 's|-Wl,--build-id=sha1||g'`
-export CXXFLAGS=`echo $CXXFLAGS| sed 's|-Wl,-z,now,-z,relro,-z,max-page-size=0x1000,-z,separate-code||g'`
+export CXXFLAGS=`echo $CXXFLAGS| sed 's|-Wl,-z -Wl,now -Wl,-z -Wl,relro||g'`
+export CXXFLAGS=`echo $CXXFLAGS| sed 's|-Wl,-z,now,-z,relro,-z,max-page-size=0x4000,-z,separate-code||g'`
 export CXXFLAGS=`echo $CXXFLAGS| sed 's|,--emit-relocs||g'`
 export CXXFLAGS=`echo $CXXFLAGS| sed 's|-mrelax-cmpxchg-loop|-enable-trivial-auto-var-init-zero-knowing-it-will-be-removed-from-clang|g'`
-export CFLAGS=`echo $CFLAGS| sed 's|-Wl,--enable-new-dtags||g'`
-export CFLAGS=`echo $CFLAGS| sed 's|-Wl,--build-id=sha1||g'`
-export CFLAGS=`echo $CFLAGS| sed 's|-Wl,-z,now,-z,relro,-z,max-page-size=0x1000,-z,separate-code||g'`
-export CFLAGS=`echo $CFLAGS| sed 's|,--emit-relocs||g'`
-export CFLAGS=`echo $CFLAGS| sed 's|-mrelax-cmpxchg-loop|-enable-trivial-auto-var-init-zero-knowing-it-will-be-removed-from-clang|g'`
 flutter clean
 flutter build linux --release
 
